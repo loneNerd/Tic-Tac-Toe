@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicTacToe"
         mc:Ignorable="d"
-        Title="Tic Tac Toe" Height="401.883" Width="585.47" FontFamily="Times New Roman" FontSize="14" ResizeMode="NoResize">
+        Title="Tic Tac Toe" Height="432.883" Width="630.47" FontFamily="Times New Roman" FontSize="14" ResizeMode="NoResize">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -25,7 +25,7 @@
             <Button x:Name="zone_9" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" Margin="210,210,0,0" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
         </Grid>
         <Grid HorizontalAlignment="Left" Height="141" Margin="380,212,0,0" VerticalAlignment="Top" Width="219">
-            <Grid x:Name="NewGameButton" HorizontalAlignment="Left" Height="58" VerticalAlignment="Top" Width="160" MouseUp="NewGameClick" MouseMove="GUMove" MouseLeave="GULeave">
+            <Grid x:Name="NewGameButton" HorizontalAlignment="Left" Height="58" VerticalAlignment="Top" Width="160" MouseMove="GUMove" MouseLeave="GULeave" MouseUp="GiveUp">
                 <Ellipse x:Name="GUEllipse" Height="45" Stroke="White" Width="145"/>
                 <Label x:Name="GULabel" Content="Give Up" Foreground="White" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
