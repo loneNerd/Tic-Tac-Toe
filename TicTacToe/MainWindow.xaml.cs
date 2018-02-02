@@ -120,7 +120,10 @@ namespace TicTacToe
                 Turn.Visibility = Visibility.Visible;
             }
             else
+            {
                 isSingleplayer = false;
+                ProgrammLogics.CleanZone();
+            }
             GameMode.Visibility = Visibility.Hidden;
         }
 

@@ -29,7 +29,7 @@ namespace TicTacToe
             if (MainWindow.playerFirstMove == false)
             {
                 AI.AITactics();
-                ProgrammLogics.ParseZone(AI.ai);
+                ParseZone(AI.ai);
             }
         }
 
