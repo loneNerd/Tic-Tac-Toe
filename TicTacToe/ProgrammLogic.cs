@@ -7,7 +7,7 @@ namespace TicTacToe
 {
     class ProgrammLogics
     {
-        static bool isX = true;
+        public static bool isX = true;
         
         //This method adds to the square the correct symbol of the correct color
         public static void Multiplayer(Button curentZone)
@@ -24,7 +24,13 @@ namespace TicTacToe
         public static void CleanZone()
         {
             Array.ForEach(MainWindow.zones, l => l.Content = ' ');
-            isX = true;
+            if (MainWindow.isSingleplayer == false)
+                isX = true;
+            if (MainWindow.playerFirstMove == false)
+            {
+                AI.AITactics();
+                ProgrammLogics.ParseZone(AI.ai);
+            }
         }
 
         public static void ParseZone(char symb)

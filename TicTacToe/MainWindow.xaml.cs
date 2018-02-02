@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace TicTacToe
 {
@@ -11,10 +10,11 @@ namespace TicTacToe
     /// </summary>
     public partial class MainWindow : Window
     {
-        bool isSingleplayer = false;
-        static uint xWins = 0;
-        static uint oWins = 0;
-        static uint draw = 0;
+        public static bool isSingleplayer = false;
+        public static bool playerFirstMove = true;
+        static int xWins = 0;
+        static int oWins = 0;
+        static int draw = 0;
 
         public static Button[] zones;
         static Label xWinsLabel;
@@ -23,19 +23,19 @@ namespace TicTacToe
 
         //The next three properties I wrote just because
         //I'm too lazy to write WinsLabel =
-        public static uint XWins
+        public static int XWins
         {
             get { return xWins; }
             set { xWins++;  xWinsLabel.Content = "X Wins: " + value.ToString(); }
         }
 
-        public static uint OWins
+        public static int OWins
         {
             get { return oWins; }
             set { oWins++;  oWinsLabel.Content = "O Wins: " + value.ToString(); }
         }
 
-        public static uint Draw
+        public static int Draw
         {
             get { return draw; }
             set { draw++;  drawLabel.Content = "Draw: " + value.ToString(); }
@@ -48,17 +48,14 @@ namespace TicTacToe
             xWinsLabel = XWinsLabel;
             oWinsLabel = OWinsLabel;
             drawLabel = DrawLabel;
-            ProgrammLogics.CleanZone();
         }
         
         private void ZoneClick(object sender, RoutedEventArgs e)
         {
             if ((char)((Button)sender).Content == ' ')
             {
-                if (isSingleplayer)
-                {
+                if (!isSingleplayer)
                     ProgrammLogics.Multiplayer((Button)sender);
-                }
                 else
                 {
                     ((Button)sender).Content = AI.player;
@@ -76,37 +73,120 @@ namespace TicTacToe
             }
         }
         
-        //Right name for this events "Surrender"
-        //I change this event twice and I'll not be any more
-        private void GiveUp(object sender, MouseButtonEventArgs e)
+        private void MoveWindow(object sender, MouseButtonEventArgs e)
         {
-            ProgrammLogics.Surrender();
+            this.DragMove();
         }
 
         //Next two events and two methods just for style
         //And increase the inscription of the button
         private void GULeave(object sender, MouseEventArgs e)
         {
-            ReduceText(ref GUEllipse, ref GULabel);
+            ((Label)sender).Height = 50;
+            ((Label)sender).Width = 150;
         }
 
         private void GUMove(object sender, MouseEventArgs e)
         {
-            EnlargeText(ref GUEllipse, ref GULabel);
+            ((Label)sender).Height = 60;
+            ((Label)sender).Width = 160;
         }
 
-        void EnlargeText(ref Ellipse elps, ref Label lbl)
+        private void CloseWindow(object sender, MouseButtonEventArgs e)
         {
-            lbl.FontSize = 30;
-            elps.Height = 50;
-            elps.Width = 150;
+            this.Close();
         }
 
-        void ReduceText(ref Ellipse elps, ref Label lbl)
+        private void ChangeButton(object sender, MouseEventArgs e)
         {
-            lbl.FontSize = 25;
-            elps.Height = 45;
-            elps.Width = 145;
+            ((Grid)sender).Background = Brushes.Gray;
+        }
+
+        private void RemoveButton(object sender, MouseEventArgs e)
+        {
+            ((Grid)sender).Background = Brushes.Transparent;
+        }
+
+        private void MinimizeWindow(object sender, MouseButtonEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void GameModeClick(object sender, MouseButtonEventArgs e)
+        {
+            if (((Grid)sender).Name == "SingleplayerButton")
+            {
+                isSingleplayer = true;
+                Turn.Visibility = Visibility.Visible;
+            }
+            else
+                isSingleplayer = false;
+            GameMode.Visibility = Visibility.Hidden;
+        }
+
+        private void ChoiceSide(object sender, MouseButtonEventArgs e)
+        {
+            if (sender.GetType() == OSymbol.GetType())
+            {
+                ProgrammLogics.isX = false;
+                AI.ai = 'X';
+                AI.player = 'O';
+            }
+            else if (sender.GetType() == XSymbol.GetType())
+            {
+                ProgrammLogics.isX = true;
+                AI.ai = 'O';
+                AI.player = 'X';
+            }
+            ProgrammLogics.CleanZone();
+            YourChoice.Visibility = Visibility.Hidden;
+        }
+
+        private void AddShadow(object sender, MouseEventArgs e)
+        {
+            if (sender.GetType() == OSymbol.GetType())
+                OShadow.Color = Colors.Cyan;
+            else if (sender.GetType() == XSymbol.GetType())
+                XShadow.Color = Colors.Pink;
+
+        }
+
+        private void RemoveShadow(object sender, MouseEventArgs e)
+        {
+            if (sender.GetType() == OSymbol.GetType())
+                OShadow.Color = Colors.Blue;
+            else if (sender.GetType() == XSymbol.GetType())
+                XShadow.Color = Colors.Red;
+
+        }
+
+        private void Surrender(object sender, RoutedEventArgs e)
+        {
+            ProgrammLogics.Surrender();
+        }
+
+        private void MainScreen(object sender, RoutedEventArgs e)
+        {
+            GameMode.Visibility = Visibility.Visible;
+            playerFirstMove = true;
+            xWins = -1;
+            oWins = -1;
+            draw = -1;
+
+            XWins = 0;
+            OWins = 0;
+            Draw = 0;
+            ProgrammLogics.CleanZone();
+        }
+
+        private void WhoTurn(object sender, MouseButtonEventArgs e)
+        {
+            if (((Grid)sender).Name == "ComputerFirst")
+                playerFirstMove = false;
+            else
+                playerFirstMove = true;
+            Turn.Visibility = Visibility.Hidden;
+            YourChoice.Visibility = Visibility.Visible;
         }
     }
 }

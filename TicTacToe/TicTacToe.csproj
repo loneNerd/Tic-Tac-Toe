@@ -95,5 +95,20 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Close.png" />
+    <Resource Include="Icons\Minimize.png" />
+    <Resource Include="Icons\Multiplayer.png" />
+    <Resource Include="Icons\Singleplayer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Choise.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Computer.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
