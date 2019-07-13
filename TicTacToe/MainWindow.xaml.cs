@@ -26,19 +26,19 @@ namespace TicTacToe
         public static int XWins
         {
             get { return xWins; }
-            set { xWins++;  xWinsLabel.Content = "X Wins: " + value.ToString(); }
+            set { xWins++; xWinsLabel.Content = "X Wins: " + value.ToString(); }
         }
 
         public static int OWins
         {
             get { return oWins; }
-            set { oWins++;  oWinsLabel.Content = "O Wins: " + value.ToString(); }
+            set { oWins++; oWinsLabel.Content = "O Wins: " + value.ToString(); }
         }
 
         public static int Draw
         {
             get { return draw; }
-            set { draw++;  drawLabel.Content = "Draw: " + value.ToString(); }
+            set { draw++; drawLabel.Content = "Draw: " + value.ToString(); }
         }
 
         public MainWindow()
@@ -49,7 +49,7 @@ namespace TicTacToe
             oWinsLabel = OWinsLabel;
             drawLabel = DrawLabel;
         }
-        
+
         private void ZoneClick(object sender, RoutedEventArgs e)
         {
             if ((char)((Button)sender).Content == ' ')
@@ -72,7 +72,7 @@ namespace TicTacToe
                 }
             }
         }
-        
+
         private void MoveWindow(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
@@ -92,11 +92,6 @@ namespace TicTacToe
             ((Label)sender).Width = 160;
         }
 
-        private void CloseWindow(object sender, MouseButtonEventArgs e)
-        {
-            this.Close();
-        }
-
         private void ChangeButton(object sender, MouseEventArgs e)
         {
             ((Grid)sender).Background = Brushes.Gray;
@@ -105,11 +100,6 @@ namespace TicTacToe
         private void RemoveButton(object sender, MouseEventArgs e)
         {
             ((Grid)sender).Background = Brushes.Transparent;
-        }
-
-        private void MinimizeWindow(object sender, MouseButtonEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
         }
 
         private void GameModeClick(object sender, MouseButtonEventArgs e)
@@ -190,6 +180,16 @@ namespace TicTacToe
                 playerFirstMove = true;
             Turn.Visibility = Visibility.Hidden;
             YourChoice.Visibility = Visibility.Visible;
+        }
+
+        private void CloseProgramm(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MinimazeProgramm(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
         }
     }
 }
