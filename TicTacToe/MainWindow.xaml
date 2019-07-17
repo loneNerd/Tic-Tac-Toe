@@ -5,34 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicTacToe"
         mc:Ignorable="d"
-        Title="Tic Tac Toe" Height="384.883" Width="499.137" FontFamily="Times New Roman" FontSize="14" ResizeMode="CanMinimize" Foreground="White" AllowsTransparency="True" WindowStyle="None" MouseLeftButtonDown="MoveWindow" Icon="Icons/icon.png">
-
-    <Window.Resources>
-        <Style x:Key="HeaderButtons" TargetType="Button">
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Width" Value="40"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.15" ScaleY="1.15"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
+        Title="Tic Tac Toe" Height="385" Width="500" FontFamily="Times New Roman" FontSize="14" ResizeMode="CanMinimize" Foreground="White" AllowsTransparency="True" WindowStyle="None" MouseLeftButtonDown="MoveWindow" Icon="Icons/icon.png">
 
     <Grid>
         <Grid.Background>
@@ -46,38 +19,19 @@
             <Image VerticalAlignment="Top" Source="Icons/icon.png" Canvas.Left="5" Canvas.Top="5" Width="40"/>
             <Label Content="Tic Tac Toe" Foreground="White" FontSize="20" FontStyle="Italic" Canvas.Left="200" Canvas.Top="10"/>
 
-            <Button Name="MinimizeButton" Canvas.Left="410" Style="{StaticResource HeaderButtons}" Click="MinimazeProgramm">
+            <Button x:Name="MinimizeButton" Canvas.Left="407" Style="{StaticResource HeaderButton}" Click="MinimazeProgramm">
                 <Image Source="Icons/Minimize.png"/>
             </Button>
 
-            <Button Name="ExitButton" Canvas.Left="455" Style="{StaticResource HeaderButtons}" Click="CloseProgramm">
+            <Button x:Name="ExitButton" Canvas.Left="453" Style="{StaticResource HeaderButton}" Click="CloseProgramm">
                 <Image Source="Icons/Close.png"/>
             </Button>
         </Canvas>
 
-        <Grid x:Name="GameMode" HorizontalAlignment="Left" Height="333" VerticalAlignment="Top" Width="499" Margin="0,52,0,0">
-            <Grid x:Name="SingleplayerButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="333" Width="252" MouseDown="GameModeClick">
-                <Grid.Background>
-                    <RadialGradientBrush>
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FF000096" Offset="1"/>
-                    </RadialGradientBrush>
-                </Grid.Background>
-                <Image HorizontalAlignment="Center" Height="100" Margin="0" VerticalAlignment="Center" Width="100" Source="Icons/singleplayer.png"/>
-                <Label Content="Singleplayer" HorizontalAlignment="Left" Height="36" Margin="70,210,0,0" VerticalAlignment="Top" Width="112" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontStyle="Italic" FontSize="20"/>
-            </Grid>
-
-            <Grid x:Name="MultiplayerButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="333" Width="247" MouseDown="GameModeClick">
-                <Grid.Background>
-                    <RadialGradientBrush>
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FF009600" Offset="1"/>
-                    </RadialGradientBrush>
-                </Grid.Background>
-                <Image HorizontalAlignment="Center" Height="100" Margin="0" VerticalAlignment="Center" Width="100" Source="Icons/multiplayer.png"/>
-                <Label Content="Multiplayer" HorizontalAlignment="Left" Height="36" Margin="67,211,0,0" VerticalAlignment="Top" Width="112" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontStyle="Italic" FontSize="20"/>
-            </Grid>
-        </Grid>
+        <StackPanel x:Name="GameMode" Margin="0,50,0,0" Orientation="Horizontal">
+            <Button x:Name="SingleplayerButton" Content="Singleplayer" Background="{StaticResource GradientBlue}" Style="{StaticResource BigButton}"/>
+            <Button x:Name="MultiplayerButton" Content="Multiplayer" Background="{StaticResource GradientGreen}" Style="{StaticResource BigButton}"/>
+        </StackPanel>
 
         <Grid x:Name="PlayZone" HorizontalAlignment="Left" Height="310" Margin="10,69,0,0" VerticalAlignment="Top" Width="310" Visibility="Hidden">
             <Button x:Name="zone_1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
