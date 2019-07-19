@@ -17,37 +17,37 @@ namespace TicTacToe
         static int draw = 0;
 
         public static Button[] zones;
-        static Label xWinsLabel;
-        static Label oWinsLabel;
-        static Label drawLabel;
+        //static Label xWinsLabel;
+        //static Label oWinsLabel;
+        //static Label drawLabel;
 
         //The next three properties I wrote just because
         //I'm too lazy to write WinsLabel =
         public static int XWins
         {
             get { return xWins; }
-            set { xWins++; xWinsLabel.Content = "X Wins: " + value.ToString(); }
+            set { xWins++; }//xWinsLabel.Content = "X Wins: " + value.ToString(); }
         }
 
         public static int OWins
         {
             get { return oWins; }
-            set { oWins++; oWinsLabel.Content = "O Wins: " + value.ToString(); }
+            set { oWins++; }// oWinsLabel.Content = "O Wins: " + value.ToString(); }
         }
 
         public static int Draw
         {
             get { return draw; }
-            set { draw++; drawLabel.Content = "Draw: " + value.ToString(); }
+            set { draw++; }//drawLabel.Content = "Draw: " + value.ToString(); }
         }
 
         public MainWindow()
         {
             InitializeComponent();
-            zones = new Button[] { zone_1, zone_2, zone_3, zone_4, zone_5, zone_6, zone_7, zone_8, zone_9 };
-            xWinsLabel = XWinsLabel;
-            oWinsLabel = OWinsLabel;
-            drawLabel = DrawLabel;
+            zones = new Button[] { Zone1, Zone2, Zone3, Zone4, Zone5, Zone6, Zone7, Zone8, Zone9 };
+            //xWinsLabel = XWinsLabel;
+            //oWinsLabel = OWinsLabel;
+            //drawLabel = DrawLabel;
         }
 
         private void ZoneClick(object sender, RoutedEventArgs e)
@@ -107,7 +107,6 @@ namespace TicTacToe
             if (((Grid)sender).Name == "SingleplayerButton")
             {
                 isSingleplayer = true;
-                Turn.Visibility = Visibility.Visible;
             }
             else
             {
@@ -119,7 +118,7 @@ namespace TicTacToe
 
         private void ChoiceSide(object sender, MouseButtonEventArgs e)
         {
-            if (sender.GetType() == OSymbol.GetType())
+            /*if (sender.GetType() == OSymbol.GetType())
             {
                 ProgrammLogics.isX = false;
                 AI.ai = 'X';
@@ -132,24 +131,24 @@ namespace TicTacToe
                 AI.player = 'X';
             }
             ProgrammLogics.CleanZone();
-            YourChoice.Visibility = Visibility.Hidden;
+            YourChoice.Visibility = Visibility.Hidden;*/
         }
 
         private void AddShadow(object sender, MouseEventArgs e)
         {
-            if (sender.GetType() == OSymbol.GetType())
+            /*if (sender.GetType() == OSymbol.GetType())
                 OShadow.Color = Colors.Cyan;
             else if (sender.GetType() == XSymbol.GetType())
-                XShadow.Color = Colors.Pink;
+                XShadow.Color = Colors.Pink;*/
 
         }
 
         private void RemoveShadow(object sender, MouseEventArgs e)
         {
-            if (sender.GetType() == OSymbol.GetType())
+            /*if (sender.GetType() == OSymbol.GetType())
                 OShadow.Color = Colors.Blue;
             else if (sender.GetType() == XSymbol.GetType())
-                XShadow.Color = Colors.Red;
+                XShadow.Color = Colors.Red;*/
 
         }
 
@@ -174,12 +173,12 @@ namespace TicTacToe
 
         private void WhoTurn(object sender, MouseButtonEventArgs e)
         {
-            if (((Grid)sender).Name == "ComputerFirst")
+            /*if (((Grid)sender).Name == "ComputerFirst")
                 playerFirstMove = false;
             else
                 playerFirstMove = true;
-            Turn.Visibility = Visibility.Hidden;
-            YourChoice.Visibility = Visibility.Visible;
+
+            YourChoice.Visibility = Visibility.Visible;*/
         }
 
         private void CloseProgramm(object sender, RoutedEventArgs e)

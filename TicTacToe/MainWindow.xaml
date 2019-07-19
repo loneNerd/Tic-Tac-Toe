@@ -29,100 +29,52 @@
         </Canvas>
 
         <StackPanel x:Name="GameMode" Margin="0,50,0,0" Orientation="Horizontal">
-            <Button x:Name="SingleplayerButton" Content="Singleplayer" Background="{StaticResource GradientBlue}" Style="{StaticResource BigButton}"/>
-            <Button x:Name="MultiplayerButton" Content="Multiplayer" Background="{StaticResource GradientGreen}" Style="{StaticResource BigButton}"/>
+            <Button x:Name="SingleplayerButton" Content="Singleplayer" Tag="Icons/Singleplayer.png" Background="{StaticResource GradientBlue}" Style="{StaticResource BigButton}"/>
+            <Button x:Name="MultiplayerButton" Content="Multiplayer" Tag="Icons/Multiplayer.png" Background="{StaticResource GradientGreen}" Style="{StaticResource BigButton}"/>
         </StackPanel>
 
-        <Grid x:Name="PlayZone" HorizontalAlignment="Left" Height="310" Margin="10,69,0,0" VerticalAlignment="Top" Width="310" Visibility="Hidden">
-            <Button x:Name="zone_1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
-            <Button x:Name="zone_2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" Margin="105,0,0,0" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
-            <Button x:Name="zone_3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" Margin="210,0,0,0" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
-            <Button x:Name="zone_4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" Margin="0,105,0,0" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
-            <Button x:Name="zone_5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" Margin="105,105,0,0" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
-            <Button x:Name="zone_6" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" Margin="210,105,0,0" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
-            <Button x:Name="zone_7" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" Margin="0,210,0,0" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
-            <Button x:Name="zone_8" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" Margin="105,210,0,0" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
-            <Button x:Name="zone_9" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" Margin="210,210,0,0" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
-        </Grid>
+        <StackPanel x:Name="FirstMove" Margin="0,50,0,0" Orientation="Horizontal" Visibility="Hidden">
+            <Button x:Name="PlayerFirstMove" Content="Player First" Tag="Icons/Singleplayer.png" Background="{StaticResource GradientBlue}" Style="{StaticResource BigButton}"/>
+            <Button x:Name="ComputerFirstMove" Content="Computer First" Tag="Icons/Computer.png" Background="{StaticResource GradientGreen}" Style="{StaticResource BigButton}"/>
+        </StackPanel>
 
-        <Grid HorizontalAlignment="Left" Height="105" Margin="337,226,0,0" VerticalAlignment="Top" Width="152" Visibility="Hidden">
-            <Button Content="Surrender" HorizontalAlignment="Left" Height="47" VerticalAlignment="Top" Width="150" BorderBrush="{x:Null}" Foreground="White" FontSize="30" Click="Surrender">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FFB0A5A5" Offset="1"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Content="Main Screen" HorizontalAlignment="Left" Height="50" Margin="0,52,0,0" VerticalAlignment="Top" Width="150" FontSize="26" Foreground="White" BorderBrush="{x:Null}" Click="MainScreen">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FFB0A5A5" Offset="1"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-        </Grid>
-
-        <Grid x:Name="ScoreBoard" HorizontalAlignment="Left" Height="121" Margin="328,69,0,0" VerticalAlignment="Top" Width="161" Visibility="Hidden">
-            <Label x:Name="XWinsLabel" Content="X Wins: 0" Height="35" Margin="10,10,0,0" Width="136" Foreground="Red" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label x:Name="OWinsLabel" Content="O Wins: 0" Height="35" Margin="10,45,0,0" Width="136" Foreground="Blue" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label x:Name="DrawLabel" Content="Draw: 0" Height="35" Margin="10,80,0,0" Width="136" Foreground="White" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        </Grid>
-
-        <Grid x:Name="YourChoice" HorizontalAlignment="Left" Height="333" VerticalAlignment="Bottom" Width="499" Visibility="Hidden">
-            <Grid.Background>
+        <Canvas x:Name="PickFigure" Margin="0,50,0,0" Visibility="Hidden">
+            <Canvas.Background>
                 <ImageBrush ImageSource="Icons/Choise.jpg"/>
-            </Grid.Background>
-            <TextBlock x:Name="XSymbol" HorizontalAlignment="Left" Margin="97,0,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Foreground="Red" FontSize="175" FontFamily="Segoe Print" FontWeight="Bold" Height="240" Width="131" MouseDown="ChoiceSide" MouseEnter="AddShadow" MouseLeave="RemoveShadow">
-                <TextBlock.Effect>
-                    <DropShadowEffect x:Name="XShadow" Color="Red"/>
-                </TextBlock.Effect>
-            </TextBlock>
+            </Canvas.Background>
 
-            <Grid x:Name="OSymbol" HorizontalAlignment="Left" Height="242" Margin="290,10,0,0" VerticalAlignment="Top" Width="146" RenderTransformOrigin="0.5,0.5" MouseEnter="AddShadow" MouseLeave="RemoveShadow" MouseDown="ChoiceSide">
+            <TextBlock Text="Pick a symbol" FontSize="40" Canvas.Left="150" Canvas.Top="10"/>
 
-                <TextBlock HorizontalAlignment="Left" Margin="2,1,0,0" TextWrapping="Wrap" Text="O" VerticalAlignment="Top" Foreground="Blue" FontSize="175" FontFamily="Segoe Print" FontWeight="Bold" Height="238" Grid.RowSpan="2" Width="140">
-                    <TextBlock.Effect>
-                        <DropShadowEffect x:Name="OShadow" Color="Blue"/>
-                    </TextBlock.Effect>
-                </TextBlock>
-                <Ellipse Fill="Blue" HorizontalAlignment="Left" Height="117" Margin="23,106,0,0" Stroke="Blue" VerticalAlignment="Top" Width="103" RenderTransformOrigin="0.5,0.5">
-                    <Ellipse.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform Angle="28.552"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Ellipse.RenderTransform>
-                </Ellipse>
+            <Button ContentStringFormat="X" Foreground="Red" Canvas.Left="87" Canvas.Top="56" Style="{StaticResource SymbolButton}"/>
+            <Button ContentStringFormat="O" Foreground="Blue" Canvas.Left="277" Canvas.Top="56" Style="{StaticResource SymbolButton}"/>
+        </Canvas>
+        
+        <Canvas x:Name="PlayZone" Margin="0,50,0,0" Visibility="Hidden">
+            <Grid x:Name="PlayField" Height="300" Width="300" Canvas.Left="10" Canvas.Top="15">
+                <UniformGrid Rows="3" Columns="3">
+                    <Button x:Name="Zone1" Width="100" Height="100" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
+                    <Button x:Name="Zone2" Width="100" Height="100" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
+                    <Button x:Name="Zone3" Width="100" Height="100" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
+                    <Button x:Name="Zone4" Width="100" Height="100" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
+                    <Button x:Name="Zone5" Width="100" Height="100" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
+                    <Button x:Name="Zone6" Width="100" Height="100" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
+                    <Button x:Name="Zone7" Width="100" Height="100" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
+                    <Button x:Name="Zone8" Width="100" Height="100" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
+                    <Button x:Name="Zone9" Width="100" Height="100" BorderBrush="Red" Background="White" FontSize="72" FontFamily="Segoe UI" Click="ZoneClick"/>
+                </UniformGrid>
             </Grid>
-        </Grid>
+            
+            <StackPanel Height="120" Width="155" Canvas.Left="327" Canvas.Top="155">
+                <Button Content="Give Up" Click="Surrender" Style="{StaticResource SmallButton}"/>
+                <Button Content="Main Screen" Click="MainScreen" Style="{StaticResource SmallButton}"/>
+            </StackPanel>
 
-        <Grid x:Name="Turn" HorizontalAlignment="Left" Height="333" VerticalAlignment="Top" Width="499" Margin="0,52,0,0" Visibility="Hidden">
-            <Grid x:Name="ComputerFirst" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="333" Width="252" MouseDown="WhoTurn">
-                <Grid.Background>
-                    <RadialGradientBrush>
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FF000096" Offset="1"/>
-                    </RadialGradientBrush>
-                </Grid.Background>
-                <Image HorizontalAlignment="Center" Height="100" Margin="0" VerticalAlignment="Center" Width="100" Source="Icons/Computer.png"/>
-                <Label Content="You Start" HorizontalAlignment="Left" Height="36" Margin="70,210,0,0" VerticalAlignment="Top" Width="112" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontStyle="Italic" FontSize="20"/>
-            </Grid>
-
-            <Grid x:Name="PlayerFirst" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="333" Width="247" MouseDown="WhoTurn">
-                <Grid.Background>
-                    <RadialGradientBrush>
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FF009600" Offset="1"/>
-                    </RadialGradientBrush>
-                </Grid.Background>
-                <Image HorizontalAlignment="Center" Height="100" Margin="0" VerticalAlignment="Center" Width="100" Source="Icons/Singleplayer.png"/>
-                <Label Content="I'll drive" HorizontalAlignment="Left" Height="36" Margin="67,211,0,0" VerticalAlignment="Top" Width="112" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontStyle="Italic" FontSize="20"/>
-            </Grid>
-        </Grid>
+            <StackPanel x:Name="ScoreBoard" Height="110" Width="170" Canvas.Left="320" Canvas.Top="15">
+                <TextBlock x:Name="PlayerWinsTB" Text="Player Wins: 0" Style="{StaticResource RegularTextBlock}"/>
+                <TextBlock x:Name="ComputerWinsTB" Text="Computer Wins: 0" Style="{StaticResource RegularTextBlock}"/>
+                <TextBlock x:Name="DrawsTB" Text="Draws: 0" Style="{StaticResource RegularTextBlock}"/>
+            </StackPanel>
+        </Canvas>
 
     </Grid>
 </Window>

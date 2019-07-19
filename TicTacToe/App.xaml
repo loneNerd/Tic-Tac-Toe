@@ -16,8 +16,18 @@
             <GradientStop Color="#FF009600" Offset="1"/>
         </RadialGradientBrush>
 
+        <LinearGradientBrush x:Key="GradientBlack" StartPoint="0,0.5" EndPoint="0,1">
+            <GradientStop Color="Black" Offset="0"/>
+            <GradientStop Color="White" Offset="1"/>
+        </LinearGradientBrush>
+        
+        <LinearGradientBrush x:Key="ReverseGradientBlack" StartPoint="0,0.5" EndPoint="0,1">
+            <GradientStop Color="White" Offset="0"/>
+            <GradientStop Color="Black" Offset="1"/>
+        </LinearGradientBrush>
+        
         <!--Button Styeles-->
-        <Style x:Key="HeaderButton" TargetType="Button">
+        <Style x:Key="HeaderButton" TargetType="{x:Type Button}">
             <Setter Property="Height" Value="40"/>
             <Setter Property="Width" Value="40"/>
             <Setter Property="Canvas.Top" Value="3"/>
@@ -43,19 +53,18 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="BigButton" TargetType="Button">
+        <Style x:Key="BigButton" TargetType="{x:Type Button}">
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Height" Value="Auto"/>
             <Setter Property="Width" Value="250"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
+                    <ControlTemplate TargetType="{x:Type Button}">
                         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}">
                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Image Name="ButtonIcon" Style="{DynamicResource BigButtonIcon}" Source="Icons/Singleplayer.png"/>
-                                <Label Content="{TemplateBinding Content}" Style="{DynamicResource BigButtonLabel}"/>
+                                <Image Name="ButtonIcon" Style="{DynamicResource BigButtonIcon}" Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Tag}"/>
+                                <TextBlock Text="{TemplateBinding Content}" Style="{DynamicResource BigButtonTextBlock}"/>
                             </StackPanel>
-                            
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -68,19 +77,72 @@
             </Setter>
         </Style>
 
-        <!--Label Templates-->
-        <Style x:Key="BigButtonLabel" TargetType="Label">
-            <Setter Property="Width" Value="112"/>
-            <Setter Property="Height" Value="36"/>
+        <Style x:Key="SymbolButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <TextBlock Name="SymbolTB" Text="{TemplateBinding ContentStringFormat}" FontSize="200" FontFamily="Arial" Foreground="Gray"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="SymbolTB" Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SmallButton" TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="Background" Value="{StaticResource GradientBlack}"/>
+            <Setter Property="Margin" Value="5,5,5,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ReverseGradientBlack}"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--TextBlock Templates-->
+        <Style x:Key="RegularTextBlock" TargetType="{x:Type TextBlock}">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Width" Value="Auto"/>
             <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+        
+        <Style x:Key="BigButtonTextBlock" TargetType="{x:Type TextBlock}">
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
         </Style>
         
         <!--Image Templates-->
-        <Style x:Key="BigButtonIcon" TargetType="Image">
+        <Style x:Key="BigButtonIcon" TargetType="{x:Type Image}">
             <Setter Property="Height" Value="100"/>
             <Setter Property="Width" Value="100"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
