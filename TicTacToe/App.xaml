@@ -85,7 +85,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
-                            <TextBlock Name="SymbolTB" Text="{TemplateBinding ContentStringFormat}" FontSize="200" FontFamily="Arial" Foreground="Gray"/>
+                            <TextBlock Name="SymbolTB" Text="{TemplateBinding Content}" FontSize="200" FontFamily="Arial" Foreground="Gray"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">

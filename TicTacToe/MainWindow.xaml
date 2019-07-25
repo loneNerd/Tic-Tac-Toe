@@ -29,13 +29,13 @@
         </Canvas>
 
         <StackPanel x:Name="GameMode" Margin="0,50,0,0" Orientation="Horizontal">
-            <Button x:Name="SingleplayerButton" Content="Singleplayer" Tag="Icons/Singleplayer.png" Background="{StaticResource GradientBlue}" Style="{StaticResource BigButton}"/>
-            <Button x:Name="MultiplayerButton" Content="Multiplayer" Tag="Icons/Multiplayer.png" Background="{StaticResource GradientGreen}" Style="{StaticResource BigButton}"/>
+            <Button x:Name="SingleplayerButton" Content="Singleplayer" Tag="Icons/Singleplayer.png" Background="{StaticResource GradientBlue}" Style="{StaticResource BigButton}" Click="SetGameMode"/>
+            <Button x:Name="MultiplayerButton" Content="Multiplayer" Tag="Icons/Multiplayer.png" Background="{StaticResource GradientGreen}" Style="{StaticResource BigButton}" Click="SetGameMode"/>
         </StackPanel>
 
         <StackPanel x:Name="FirstMove" Margin="0,50,0,0" Orientation="Horizontal" Visibility="Hidden">
-            <Button x:Name="PlayerFirstMove" Content="Player First" Tag="Icons/Singleplayer.png" Background="{StaticResource GradientBlue}" Style="{StaticResource BigButton}"/>
-            <Button x:Name="ComputerFirstMove" Content="Computer First" Tag="Icons/Computer.png" Background="{StaticResource GradientGreen}" Style="{StaticResource BigButton}"/>
+            <Button x:Name="PlayerFirstMoveButton" Content="Player First" Tag="Icons/Singleplayer.png" Background="{StaticResource GradientBlue}" Style="{StaticResource BigButton}" Click="FirstTurn"/>
+            <Button x:Name="ComputerFirstMoveButton" Content="Computer First" Tag="Icons/Computer.png" Background="{StaticResource GradientGreen}" Style="{StaticResource BigButton}" Click="FirstTurn"/>
         </StackPanel>
 
         <Canvas x:Name="PickFigure" Margin="0,50,0,0" Visibility="Hidden">
@@ -45,8 +45,8 @@
 
             <TextBlock Text="Pick a symbol" FontSize="40" Canvas.Left="150" Canvas.Top="10"/>
 
-            <Button ContentStringFormat="X" Foreground="Red" Canvas.Left="87" Canvas.Top="56" Style="{StaticResource SymbolButton}"/>
-            <Button ContentStringFormat="O" Foreground="Blue" Canvas.Left="277" Canvas.Top="56" Style="{StaticResource SymbolButton}"/>
+            <Button x:Name="XButton" Content="X" Foreground="Red" Canvas.Left="87" Canvas.Top="56" Style="{StaticResource SymbolButton}" Click="GetFigure"/>
+            <Button x:Name="OButton" Content="O" Foreground="Blue" Canvas.Left="277" Canvas.Top="56" Style="{StaticResource SymbolButton}" Click="GetFigure"/>
         </Canvas>
         
         <Canvas x:Name="PlayZone" Margin="0,50,0,0" Visibility="Hidden">
@@ -65,8 +65,8 @@
             </Grid>
             
             <StackPanel Height="120" Width="155" Canvas.Left="327" Canvas.Top="155">
-                <Button Content="Give Up" Click="Surrender" Style="{StaticResource SmallButton}"/>
-                <Button Content="Main Screen" Click="MainScreen" Style="{StaticResource SmallButton}"/>
+                <Button Content="Give Up" Style="{StaticResource SmallButton}" Click="GiveUp"/>
+                <Button Content="Main Screen" Style="{StaticResource SmallButton}" Click="MainScreen"/>
             </StackPanel>
 
             <StackPanel x:Name="ScoreBoard" Height="110" Width="170" Canvas.Left="320" Canvas.Top="15">

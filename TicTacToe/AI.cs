@@ -7,9 +7,10 @@ namespace TicTacToe
 {
     class AI
     {
-        public static char ai = 'O';
-        public static char player = 'X';
-
+        public static int AIMove()
+        {
+            return 0;
+        }
         static int depthLevel = 0;
 
         static Zone[] EmptyIndex(char[] zones)
@@ -25,7 +26,7 @@ namespace TicTacToe
 
         public static void AITactics()
         {
-            Button AIMove = MainWindow.zones[BestZone(ProgrammLogics.BtnConverter(), ai).position];
+            Button AIMove = MainWindow.zonesBttn[BestZone(ProgrammLogics.BtnConverter(), ai).position];
             depthLevel = 0;
             AIMove.Content = ai;
             AIMove.Foreground = ai == 'X' ? Brushes.Red : Brushes.Blue;
@@ -51,7 +52,7 @@ namespace TicTacToe
                     newZone.rank += depthLevel;
                 else if (ProgrammLogics.ParseWin(player, newBoard))
                     newZone.rank -= depthLevel;
-                else if (!ProgrammLogics.ParseDraw(newBoard))
+                else if (!ProgrammLogics.CheckDraw(newBoard))
                 {
                     if (plr == player)
                         newZone.rank = BestZone(newBoard, ai).rank;
