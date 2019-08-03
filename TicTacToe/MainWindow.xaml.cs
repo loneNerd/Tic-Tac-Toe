@@ -8,16 +8,12 @@ namespace TicTacToe
 {
     public partial class MainWindow : Window
     {
-        public static MainWindow Instance { get; private set; }
+        public bool IsSingleplayer       { get; private set; }
+        public bool IsPlayer1FirstMove   { get; private set; }
+        public static char Player1Symbol { get; private set; }
+        public static char Player2Symbol { get; private set; }
 
-        public bool IsSingleplayer     { get; private set; }
-        public bool IsPlayer1FirstMove { get; private set; }
-        public char Player1Symbol      { get; private set; }
-        public char Player2Symbol      { get; private set; }
-   
-        public char[] Zones { get { return Array.ConvertAll(zonesBttn, zone => (char)zone.Content); } }
-
-        private Button[] zonesBttn;
+        private static Button[] zonesBttn; 
 
         private int player1Wins  = 0;
         private int player2Wins  = 0;
@@ -30,9 +26,18 @@ namespace TicTacToe
         {
             InitializeComponent();
 
-            Instance = this;
-
             zonesBttn = new Button[] { Zone1, Zone2, Zone3, Zone4, Zone5, Zone6, Zone7, Zone8, Zone9 };
+            ClearPlayField();
+        }
+
+        public static char[] Zones()
+        {
+            char[] zones = new char[zonesBttn.Length];
+
+            for (int i = 0; i < zones.Length; ++i)
+                zones[i] = (char)zonesBttn[i].Content;
+
+            return zones;
         }
 
         private void IncrementPlayer1Wins()
@@ -77,39 +82,39 @@ namespace TicTacToe
 
             if (((Button)sender).Name == SingleplayerButton.Name)
             {
-                IsSingleplayer = true;
+                if (!IsSingleplayer)
+                {
+                    IsSingleplayer = true;
+                    player1Wins = -1;
+                    computerWins = -1;
+                    draws = -1;
+                    IncrementPlayer1Wins();
+                    IncrementComputerWins();
+                    IncrementDraws();
+                }
+                
                 PlayerFirstMoveButton.Content = "Player First";
                 PlayerFirstMoveButton.Tag = "Icons/Singleplayer.png";
                 ComputerFirstMoveButton.Content = "Computer First";
                 ComputerFirstMoveButton.Tag = "Icons/Computer.png";
-
-                if (!IsSingleplayer)
-                {
-                    player1Wins = -1;
-                    computerWins = -1;
-                    IncrementPlayer1Wins();
-                    IncrementComputerWins();
-                }
-                else
-                    ComputerWinsTB.Text = "Computer Wins: " + computerWins;
             }
             else
             {
-                IsSingleplayer = false;
+                if (IsSingleplayer)
+                {
+                    IsSingleplayer = false;
+                    player1Wins = -1;
+                    player2Wins = -1;
+                    draws = -1;
+                    IncrementPlayer1Wins();
+                    IncrementPlayer2Wins();
+                    IncrementDraws();
+                }
+                
                 PlayerFirstMoveButton.Content = "Player 1 First";
                 PlayerFirstMoveButton.Tag = "Icons/Singleplayer.png";
                 ComputerFirstMoveButton.Content = "Player 2 First";
                 ComputerFirstMoveButton.Tag = "Icons/Singleplayer.png";
-
-                if (IsSingleplayer)
-                {
-                    player1Wins = -1;
-                    player2Wins = -1;
-                    IncrementPlayer1Wins();
-                    IncrementPlayer2Wins();
-                }
-                else
-                    ComputerWinsTB.Text = "Player 2 Wins: " + player2Wins;
             }
         }
 
@@ -135,7 +140,9 @@ namespace TicTacToe
             PlayerWinsTB.Foreground = currentSymbol == 'X' ? Brushes.Red : Brushes.Blue;
             ComputerWinsTB.Foreground = currentSymbol == 'X' ? Brushes.Blue : Brushes.Red;
 
-            if (!IsPlayer1FirstMove)
+            if (IsSingleplayer && !IsPlayer1FirstMove)
+                AIMove();
+            else if (!IsPlayer1FirstMove)
                 currentSymbol = Player1Symbol == 'X' ? 'O' : 'X';
         }
 
@@ -147,18 +154,10 @@ namespace TicTacToe
             ((Button)sender).Content = currentSymbol;
             ((Button)sender).Foreground = currentSymbol == 'X' ? Brushes.Red : Brushes.Blue;
 
-            int[] winPos = ProgrammLogics.CheckWin(Zones, currentSymbol, Array.FindIndex(zonesBttn, zone => zone.Name == ((Button)sender).Name));
+            int[] winPos = ProgrammLogics.CheckWin(Zones(), currentSymbol, Array.FindIndex(zonesBttn, zone => zone.Name == ((Button)sender).Name));
 
-            if (ProgrammLogics.CheckDraw(Zones))
-            {
-                MessageBox.Show("Draw!", "Game Over");
-                ClearPlayField();
-                IncrementDraws();
-
-                if (!IsSingleplayer)
-                    currentSymbol = IsPlayer1FirstMove ? Player2Symbol : Player1Symbol;
-            }
-            else if (winPos != null)
+            
+            if (winPos != null)
             {
                 Brush prevColor = zonesBttn[0].Background;
 
@@ -186,45 +185,33 @@ namespace TicTacToe
 
                 if (!IsSingleplayer)
                     currentSymbol = IsPlayer1FirstMove ? Player2Symbol : Player1Symbol;
+                else if (IsSingleplayer && !IsPlayer1FirstMove)
+                    AIMove();
+
+                return;
             }
-            
-            if (IsSingleplayer)
+            else if (ProgrammLogics.CheckDraw(Zones()))
             {
-                zonesBttn[AI.AIMove()].Content = Player2Symbol;
-                winPos = ProgrammLogics.CheckWin(Zones, currentSymbol, Array.FindIndex(zonesBttn, zone => zone.Name == ((Button)sender).Name));
+                MessageBox.Show("Draw!", "Game Over");
+                ClearPlayField();
+                IncrementDraws();
 
-                if (winPos != null)
-                {
-                    Brush prevColor = zonesBttn[0].Background;
+                if (!IsSingleplayer)
+                    currentSymbol = IsPlayer1FirstMove ? Player2Symbol : Player1Symbol;
+                else if (IsSingleplayer && !IsPlayer1FirstMove)
+                    AIMove();
 
-                    foreach (int w in winPos)
-                        zonesBttn[w].Background = Brushes.Green;
-
-                    MessageBox.Show("Computer Win!", "Game Over");
-                    IncrementComputerWins();
-
-                    foreach (int w in winPos)
-                        zonesBttn[w].Background = prevColor;
-
-                    ClearPlayField();
-                    currentSymbol = IsPlayer1FirstMove ? Player1Symbol : Player2Symbol;
-                    return;
-                }
-                else if (ProgrammLogics.CheckDraw(Zones))
-                {
-                    MessageBox.Show("Draw!", "Game Over");
-                    ClearPlayField();
-                    IncrementDraws();
-                }
+                return;
             }
+
+            if (IsSingleplayer)
+                AIMove();
             else
                 currentSymbol = currentSymbol == 'X' ? 'O' : 'X';
         }
 
         private void GiveUp(object sender, RoutedEventArgs e)
         {
-            ClearPlayField();
-
             if (IsSingleplayer)
             {
                 IncrementComputerWins();
@@ -244,7 +231,12 @@ namespace TicTacToe
                 }
             }
 
-            currentSymbol = IsPlayer1FirstMove ? Player1Symbol : Player2Symbol;
+            ClearPlayField();
+
+            if (!IsSingleplayer)
+                currentSymbol = IsPlayer1FirstMove ? Player1Symbol : Player2Symbol;
+            else if (IsSingleplayer && !IsPlayer1FirstMove)
+                AIMove();
         }
 
         private void MainScreen(object sender, RoutedEventArgs e)
@@ -252,6 +244,44 @@ namespace TicTacToe
             GameMode.Visibility = Visibility.Visible;
             PlayZone.Visibility = Visibility.Hidden;
             ClearPlayField();
+        }
+
+        private void AIMove()
+        {
+            int botMove = AI.AIMove();
+            zonesBttn[botMove].Content = Player2Symbol;
+            zonesBttn[botMove].Foreground = Player2Symbol == 'X' ? Brushes.Red : Brushes.Blue;
+            int[] winPos = ProgrammLogics.CheckWin(Zones(), Player2Symbol, botMove);
+
+            if (winPos != null)
+            {
+                Brush prevColor = zonesBttn[0].Background;
+
+                foreach (int w in winPos)
+                    zonesBttn[w].Background = Brushes.Green;
+
+                MessageBox.Show("Computer Win!", "Game Over");
+                IncrementComputerWins();
+
+                foreach (int w in winPos)
+                    zonesBttn[w].Background = prevColor;
+
+                ClearPlayField();
+
+                if (!IsPlayer1FirstMove)
+                    AIMove();
+
+                return;
+            }
+            else if (ProgrammLogics.CheckDraw(Zones()))
+            {
+                MessageBox.Show("Draw!", "Game Over");
+                ClearPlayField();
+                IncrementDraws();
+
+                if (!IsPlayer1FirstMove)
+                    AIMove();
+            }
         }
 
     }

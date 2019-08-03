@@ -2,82 +2,64 @@
 using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace TicTacToe
 {
     class AI
     {
-        public static int AIMove()
+        private static ZonePoints[] GetEmptyIndexes(char[] zones)
         {
-            return 0;
-        }
-        static int depthLevel = 0;
+            List<ZonePoints> indexes = new List<ZonePoints>();
 
-        static Zone[] EmptyIndex(char[] zones)
-        {
-            List<Zone> emptyIndex = new List<Zone>();
-
-            for (int i = 0; i < zones.Length; i++)
-                if (zones[i] == ' ')
-                    emptyIndex.Add(new Zone(i));
-
-            return emptyIndex.ToArray();
-        }
-
-        public static void AITactics()
-        {
-            Button AIMove = MainWindow.zonesBttn[BestZone(ProgrammLogics.BtnConverter(), ai).position];
-            depthLevel = 0;
-            AIMove.Content = ai;
-            AIMove.Foreground = ai == 'X' ? Brushes.Red : Brushes.Blue;
-        }
-
-        public static Zone BestZone(char[] curentBoard, char plr)
-        {
-            Zone[] freeZone = EmptyIndex(curentBoard);
-            char[] newBoard;
-
-            Zone? bestZone = null;
-
-            depthLevel++;
-
-            foreach(Zone zone in freeZone)
+            for (int i = 0; i < zones.Length; ++i)
             {
-                newBoard = (char[])curentBoard.Clone();
-                newBoard[zone.position] = plr;
-
-                Zone newZone = zone;
-                
-                if (ProgrammLogics.ParseWin(ai, newBoard))
-                    newZone.rank += depthLevel;
-                else if (ProgrammLogics.ParseWin(player, newBoard))
-                    newZone.rank -= depthLevel;
-                else if (!ProgrammLogics.CheckDraw(newBoard))
-                {
-                    if (plr == player)
-                        newZone.rank = BestZone(newBoard, ai).rank;
-                    else
-                        newZone.rank = BestZone(newBoard, player).rank;
-                }
-
-                if (bestZone == null ||
-                    (plr == ai && newZone.rank > ((Zone)bestZone).rank) ||
-                    (plr == player && newZone.rank < ((Zone)bestZone).rank))
-                    bestZone = newZone;
+                if (zones[i] == ' ')
+                    indexes.Add(new ZonePoints(i));
             }
 
-            return (Zone)bestZone;
+            return indexes.ToArray();
         }
 
-        public struct Zone
+        private static ZonePoints CheckZonePoints(char[] playField, char symbol, int depth = 0)
         {
-            public int position;
-            public int rank;
+            ZonePoints[] posibleMoves = GetEmptyIndexes(playField);
+            char[] newPlayField = new char[playField.Length];
+            ZonePoints bestMove = new ZonePoints(posibleMoves[0].Zone);
 
-            public Zone(int pos)
+            for (int i = 0; i < posibleMoves.Length; ++i)
             {
-                this.position = pos;
-                rank = 0;
+                newPlayField = (char[])playField.Clone();
+                newPlayField[posibleMoves[i].Zone] = symbol;
+
+                if (ProgrammLogics.CheckWin(newPlayField, symbol, posibleMoves[i].Zone) != null)
+                {
+                    posibleMoves[i].Points = 10 - depth;
+                    return posibleMoves[i];
+                }
+                else if (!ProgrammLogics.CheckDraw(newPlayField))
+                {
+                    ZonePoints tempZone = CheckZonePoints(newPlayField, symbol == 'X' ? 'O' : 'X', depth + 1);
+
+                    if (tempZone.Points > bestMove.Points)
+                        bestMove = tempZone;
+                }
+            }
+
+            return bestMove;
+        }
+
+        public static int AIMove() => CheckZonePoints(MainWindow.Zones(), MainWindow.Player2Symbol).Zone;
+
+        struct ZonePoints
+        {
+            public int Zone { get; set; }
+            public int Points { get; set; }
+
+            public ZonePoints(int zone)
+            {
+                Zone = zone;
+                Points = 0;
             }
         }
     }
