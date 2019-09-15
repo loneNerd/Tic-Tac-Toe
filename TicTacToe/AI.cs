@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Media;
-using System.Windows.Controls;
-using System.Windows;
+﻿using System.Collections.Generic;
 
 namespace TicTacToe
 {
@@ -21,32 +17,33 @@ namespace TicTacToe
             return indexes.ToArray();
         }
 
-        private static ZonePoints CheckZonePoints(char[] playField, char symbol, int depth = 0)
+        private static ZonePoints CheckZonePoints(char[] playField, char symbol, int depthLevel = 0)
         {
             ZonePoints[] posibleMoves = GetEmptyIndexes(playField);
-            char[] newPlayField = new char[playField.Length];
-            ZonePoints bestMove = new ZonePoints(posibleMoves[0].Zone);
+            ZonePoints? bestZone = null;
+            depthLevel++;
 
-            for (int i = 0; i < posibleMoves.Length; ++i)
+            foreach (ZonePoints zone in posibleMoves)
             {
-                newPlayField = (char[])playField.Clone();
-                newPlayField[posibleMoves[i].Zone] = symbol;
+                char[] newBoard = (char[])playField.Clone();
+                newBoard[zone.Zone] = symbol;
 
-                if (ProgrammLogics.CheckWin(newPlayField, symbol, posibleMoves[i].Zone) != null)
-                {
-                    posibleMoves[i].Points = 10 - depth;
-                    return posibleMoves[i];
-                }
-                else if (!ProgrammLogics.CheckDraw(newPlayField))
-                {
-                    ZonePoints tempZone = CheckZonePoints(newPlayField, symbol == 'X' ? 'O' : 'X', depth + 1);
+                ZonePoints newZone = zone;
 
-                    if (tempZone.Points > bestMove.Points)
-                        bestMove = tempZone;
-                }
+                if (ProgrammLogics.CheckWin(newBoard, zone.Zone) != null && symbol == MainWindow.Player2Symbol)
+                    newZone.Points = depthLevel;
+                else if (ProgrammLogics.CheckWin(newBoard, zone.Zone) != null && symbol == MainWindow.Player1Symbol)
+                    newZone.Points = -depthLevel;
+                else if (!ProgrammLogics.CheckDraw(newBoard))
+                    newZone.Points = CheckZonePoints(newBoard, symbol == 'X' ? 'O' : 'X', depthLevel).Points;
+
+                if (bestZone == null ||
+                    (symbol == MainWindow.Player2Symbol && newZone.Points > ((ZonePoints)bestZone).Points) ||
+                    (symbol == MainWindow.Player1Symbol && newZone.Points < ((ZonePoints)bestZone).Points))
+                    bestZone = newZone;
             }
 
-            return bestMove;
+            return (ZonePoints)bestZone;
         }
 
         public static int AIMove() => CheckZonePoints(MainWindow.Zones(), MainWindow.Player2Symbol).Zone;

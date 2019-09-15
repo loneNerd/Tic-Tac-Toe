@@ -154,7 +154,7 @@ namespace TicTacToe
             ((Button)sender).Content = currentSymbol;
             ((Button)sender).Foreground = currentSymbol == 'X' ? Brushes.Red : Brushes.Blue;
 
-            int[] winPos = ProgrammLogics.CheckWin(Zones(), currentSymbol, Array.FindIndex(zonesBttn, zone => zone.Name == ((Button)sender).Name));
+            int[] winPos = ProgrammLogics.CheckWin(Zones(), Array.FindIndex(zonesBttn, zone => zone.Name == ((Button)sender).Name));
 
             
             if (winPos != null)
@@ -184,7 +184,7 @@ namespace TicTacToe
                 ClearPlayField();
 
                 if (!IsSingleplayer)
-                    currentSymbol = IsPlayer1FirstMove ? Player2Symbol : Player1Symbol;
+                    currentSymbol = IsPlayer1FirstMove ? Player1Symbol : Player2Symbol;
                 else if (IsSingleplayer && !IsPlayer1FirstMove)
                     AIMove();
 
@@ -197,7 +197,7 @@ namespace TicTacToe
                 IncrementDraws();
 
                 if (!IsSingleplayer)
-                    currentSymbol = IsPlayer1FirstMove ? Player2Symbol : Player1Symbol;
+                    currentSymbol = IsPlayer1FirstMove ? Player1Symbol : Player2Symbol;
                 else if (IsSingleplayer && !IsPlayer1FirstMove)
                     AIMove();
 
@@ -251,7 +251,7 @@ namespace TicTacToe
             int botMove = AI.AIMove();
             zonesBttn[botMove].Content = Player2Symbol;
             zonesBttn[botMove].Foreground = Player2Symbol == 'X' ? Brushes.Red : Brushes.Blue;
-            int[] winPos = ProgrammLogics.CheckWin(Zones(), Player2Symbol, botMove);
+            int[] winPos = ProgrammLogics.CheckWin(Zones(), botMove);
 
             if (winPos != null)
             {
